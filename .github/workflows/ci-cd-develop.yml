@@ -32,7 +32,7 @@ jobs:
 
       - name: Deploy to EC2 instance
         run: |
-          ssh -i "Mode Dev.pem" ubuntu@ec2-35-87-147-30.us-west-2.compute.amazonaws.com "docker pull mode:latest && \
-          docker stop my-next-app || true && \
-          docker rm my-next-app || true && \
-          docker run -d -p 3000:3000 --name my-next-app my-next-app:latest"
+          ssh -i "Mode Dev.pem" ubuntu@ec2-35-87-147-30.us-west-2.compute.amazonaws.com "docker pull modestaging:latest && \
+          docker stop modestaging || true && \
+          docker rm modedev || true && \
+          docker run -d -p 3000:3000 --name modedev:latest"
