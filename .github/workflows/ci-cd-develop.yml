@@ -41,4 +41,4 @@ jobs:
 
       - name: Deploy to EC2 instance
         run: |
-          aws ec2 run-instances --image-id ami-0cf2b4e024cdb6960 --instance-type t2.micro --iam-instance-profile Name=EC2CodeDeploy
+          aws ec2 run-instances --image-id ami-0cf2b4e024cdb6960 --instance-type t2.micro --iam-instance-profile Name=ModeOwner
