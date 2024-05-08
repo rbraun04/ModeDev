@@ -28,10 +28,10 @@ jobs:
         run: npm run build
 
       - name: Build Docker image
-        run: docker build -t modestaging .
+        run: docker build -t modestaging:latest .
 
       - name: Push Docker image
-        run: docker push rbraun04/modestaging
+        run: docker push rbraun04/modestaging:latest
 
       - name: Deploy to EC2 instance
         run: |
