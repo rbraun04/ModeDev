@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
       - name: Build Docker image
-        run: docker build -t modestaging:latest .
+        run: docker build -t rbraun04/modestaging:latest .
 
       - name: Push Docker image
         run: docker push rbraun04/modestaging:latest
