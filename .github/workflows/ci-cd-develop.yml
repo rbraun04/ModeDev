@@ -41,14 +41,5 @@ jobs:
 
       - name: Deploy to EC2 instance
         run: |
-          # Create a JSON document for the Run Command
-          COMMAND_JSON=$(jq -n --arg container_name modestaging '{
-              "docker stop modestaging",
-              "docker rm modestaging",
-              "docker pull rbraun04/modestaging",
-              "docker run -p 80:3000 -d --name modestaging rbraun04/modestaging"
-            
-          }')
-
           # Run the AWS Systems Manager Run Command
-          aws ssm send-command --document-name "AWS-RunShellScript" --instance-ids  ami-0c29a2c5cf69b5a9c --parameters "commands=$COMMAND_JSON"
+          aws ssm send-command --document-name "AWS-RunShellScript" --instance-ids ami-0c29a2c5cf69b5a9c --parameters "commands=['docker stop modestaging', 'docker rm modestaging', 'docker pull rbraun04/modestaging', 'docker run -p 80:3000 -d --name modestaging rbraun04/modestaging']" --region us-west-2
