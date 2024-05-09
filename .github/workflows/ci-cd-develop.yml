@@ -34,7 +34,7 @@ jobs:
         run: npm run build
 
       - name: Build Docker image
-        run: docker build --platform linux/amd64 -t rbraun04/modestaging:latest .
+        run: docker build --platform linux/amd64 -t rbraun04/modestaging .
 
       - name: Push Docker image
         run: |
