@@ -34,11 +34,23 @@ jobs:
         run: npm run build
 
       - name: Build Docker image
-        run: docker build -t rbraun04/modestaging:latest .
+        run: docker build --platform linux/amd64 -t rbraun04/modestaging:latest .
 
       - name: Push Docker image
         run: docker push rbraun04/modestaging:latest
 
       - name: Deploy to EC2 instance
         run: |
-          aws ec2 update-instance --image-id ami-0cf2b4e024cdb6960 --instance-type t2.micro --iam-instance-profile Name=ModeStaging
+          # Create a JSON document for the Run Command
+          COMMAND_JSON=$(jq -n --arg container_name modestaging '{
+            "commands": [
+              "docker stop modestaging",
+              "docker rm modestaging",
+              "docker pull rbraun04/modestaging",
+              "docker run -p 80:3000 -d --name modestaging rbraun04/modestaging"
+            ],
+            "workingDirectory": "/home/ec2-user"
+          }')
+
+          # Run the AWS Systems Manager Run Command
+          aws ssm send-command --document-name "AWS-RunShellScript" --instance-ids <instance-id> --parameters "$COMMAND_JSON"
