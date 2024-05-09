@@ -39,7 +39,14 @@ jobs:
       - name: Push Docker image
         run: docker push rbraun04/modestaging:latest
 
-      - name: Deploy to EC2 instance
-        run: |
-          # Run the AWS Systems Manager Run Command
-          aws ssm send-command --document-name "AWS-RunShellScript" --instance-id ami-0c29a2c5cf69b5a9c --parameters "commands=['docker stop modestaging', 'docker rm modestaging', 'docker pull rbraun04/modestaging', 'docker run -p 80:3000 -d --name modestaging rbraun04/modestaging']" --region us-west-2
+      - name: SSH into EC2 and run commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USERNAME }}
+          key: ${{ secrets.EC2_PRIVATE_KEY }}
+          script: |
+            docker stop modestaging
+            docker rm modestaging
+            docker pull rbraun04/modestaging
+            docker run -p 80:3000 -d --name modestaging rbraun04/modestaging
