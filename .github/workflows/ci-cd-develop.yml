@@ -33,13 +33,10 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      - name: Build Docker image
-        run: docker build --platform linux/amd64 -t rbraun04/modestaging .
-
-      - name: Push Docker image
+      - name: Build Docker image and push to docker
         run: |
+          docker build --platform linux/amd64 -t rbraun04/modestaging .
           docker push rbraun04/modestaging:latest
-          docker wait rbraun04/modestaging:latest
 
       - name: SSH into EC2 and run commands
         uses: appleboy/ssh-action@master
