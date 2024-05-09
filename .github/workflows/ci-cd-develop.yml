@@ -53,4 +53,4 @@ jobs:
           }')
 
           # Run the AWS Systems Manager Run Command
-          aws ssm send-command --document-name "AWS-RunShellScript" --instance-ids <your-instance-id> --parameters "commands=$COMMAND_JSON"
+          aws ssm send-command --document-name "AWS-RunShellScript" --instance-ids  ami-0c29a2c5cf69b5a9c --parameters "commands=$COMMAND_JSON"
