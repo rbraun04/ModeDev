@@ -6,7 +6,7 @@ on:
       - develop
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -18,36 +18,28 @@ jobs:
         with:
           node-version: "18.17.0"
 
+      - name: Configure AWS credentials
+        run: |
+          aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
+          aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          aws configure set region "${{ secrets.AWS_REGION }}"
+
+      - name: Log in to Docker
+        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
       - name: Install dependencies
         run: npm ci
 
       - name: Build Next.js app
         run: npm run build
 
-  docker:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
       - name: Build Docker image
         run: docker build --platform linux/amd64 -t rbraun04/modestaging:latest .
 
-      - name: Log in to Docker
-        run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
-
       - name: Push Docker image
-        run: docker push rbraun04/modestaging:latest
-
-  deploy:
-    needs: docker
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Configure AWS credentials
         run: |
-          aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
-          aws configure set aws_secret_access_key "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-          aws configure set region "${{ secrets.AWS_REGION }}"
+          docker push rbraun04/modestaging:latest
+          docker wait rbraun04/modestaging:latest
 
       - name: SSH into EC2 and run commands
         uses: appleboy/ssh-action@master
