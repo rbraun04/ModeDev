@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  pages: {
-    main: "src/app/page.tsx",
-  },
+  app: "src/app",
 };
 
 export default nextConfig;
