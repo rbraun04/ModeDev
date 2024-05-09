@@ -18,12 +18,6 @@ jobs:
         with:
           node-version: "18.17.0"
 
-      - name: Install AWS CLI
-        run: |
-          curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
-          unzip awscliv2.zip
-          sudo ./aws/install --update
-
       - name: Configure AWS credentials
         run: |
           aws configure set aws_access_key_id "${{ secrets.AWS_ACCESS_KEY_ID }}"
@@ -47,4 +41,4 @@ jobs:
 
       - name: Deploy to EC2 instance
         run: |
-          aws ec2 update-instance --instance-id ami-0cf2b4e024cdb6960 --instance-type t2.micro --iam-instance-profile Name=EC2CodeDeploy
+          aws ec2 update-instance --image-id ami-0cf2b4e024cdb6960 --instance-type t2.micro --iam-instance-profile Name=EC2CodeDeploy "echo 'Updating the EC2 instance...'; sudo apt-get update; sudo apt-get upgrade -y"
