@@ -42,8 +42,13 @@ jobs:
         with:
           context: .
           file: ./Dockerfile
-          push: true
-          tags: "rbraun04/modelstaging:latest"
+          push: false
+          tags: "rbraun04/modestaging:latest"
+
+      - name: Update Docker image with new code
+        run: |
+          docker build -t rbraun04/modestaging:latest .
+          docker push rbraun04/modestaging:latest
 
       - name: SSH into EC2 and run commands
         uses: appleboy/ssh-action@master
