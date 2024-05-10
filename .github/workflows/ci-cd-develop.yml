@@ -54,5 +54,6 @@ jobs:
           script: |
             sudo docker stop modestaging
             sudo docker rm modestaging
+            sudo docker rmi --all --force
             sudo docker pull rbraun04/modestaging:latest
             sudo docker run -p 80:3000 -d --name modestaging rbraun04/modestaging
