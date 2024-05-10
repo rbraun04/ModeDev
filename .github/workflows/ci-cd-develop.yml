@@ -47,7 +47,7 @@ jobs:
 
       - name: Update Docker image with new code
         run: |
-          docker build -t rbraun04/modestaging:latest .
+          docker build --platform linux/amd64 -t rbraun04/modestaging:latest .
           docker push rbraun04/modestaging:latest
 
       - name: SSH into EC2 and run commands
