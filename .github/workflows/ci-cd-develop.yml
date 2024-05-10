@@ -36,7 +36,7 @@ jobs:
       - name: Build Docker image and push to docker
         run: |
           docker build --platform linux/amd64 -t rbraun04/modestaging .
-          docker push rbraun04/modestaging:latest
+          docker push rbraun04/modestaging:latestupdate
 
       - name: SSH into EC2 and run commands
         uses: appleboy/ssh-action@master
@@ -47,5 +47,5 @@ jobs:
           script: |
             sudo docker stop modestaging
             sudo docker rm modestaging
-            sudo docker pull rbraun04/modestaging:latest
+            sudo docker pull rbraun04/modestaging:latestupdate
             sudo docker run -p 80:3000 -d --name modestaging rbraun04/modestaging
