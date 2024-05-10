@@ -43,7 +43,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: "latest"
+          tags: "rbraun04/modelstaging:latest"
 
       - name: SSH into EC2 and run commands
         uses: appleboy/ssh-action@master
