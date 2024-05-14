@@ -17,9 +17,6 @@ const config = {
   // Automatically clear mock calls, instances, contexts and results before every test
   clearMocks: true,
   testEnvironment: "jsdom",
-  transform: {
-    "^.+\\.(ts|tsx|js|jsx)$": "babel-jest",
-  },
 
   // Indicates whether the coverage information should be collected while executing the test
   collectCoverage: true,
